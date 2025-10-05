@@ -1,18 +1,20 @@
 # computational-fluid-dynamics-study
 
-## 10.4 Update
+### 10.4 Update
 A strong curiosity about Computational Fluid Dynamics (CFD) inspires me to start this journey. After self-studying C++ fundamentals for a while, I am undertaking this project to apply theoretical knowledge to a practical challenge, aiming to gain a deep understanding of the underlying data structures, numerical algorithms, and modern C++ software engineering practices involved in CFD solvers.
 This repository will serve as my learning log, systematically showcasing the whole discovery process.
 
 ---
 
-### Part 1: C++ Compilation and the Role of Libraries
+## Part 1: C++ Compilation and the Role of Libraries
 
 C++ operates differently from an interpreted language like Python. C++ requires a compilation step because the human-readable source code must be translated by a compiler into low-level machine code instructions that the CPU can execute directly. While this adds a step to the development process, it is precisely this translation that gives C++ its immense performance advantage at runtime, which is critical for scientific computing.
 
 A **library** is simply a collection of pre-written, reusable code (like functions or classes) designed to be used by another program, it **cannot contain its own `main()` function**. This is because `main()` is the unique starting point for a program's execution, and having two would create a conflict.
 
 Therefore, before attempting to build my own, it's essential to first understand the common types of C++ libraries.
+
+### 10.4 Update
 
 #### Static Libraries
 A **static library** is essentially an archive of code that is directly copied and linked into your application's final executable file during compilation.
@@ -24,3 +26,19 @@ My understanding is that it's best suited for smaller applications or environmen
 A **dynamic library** is a collection of reusable code kept in a separate file that is loaded by the operating system only when your application is running (at runtime), rather than being bundled directly into the executable.
 
 My understanding is that dynamic libraries are ideal for large-scale applications or modular systems where keeping the main program lightweight is important. Their biggest advantages are the small executable size and the ability to update the library without needing to recompile the entire application. This is also highly efficient when multiple programs on a system need to use the same shared functionality. The trade-off is the increased complexity of managing these dependencies at runtime and ensuring the correct library version is available on the user's system.
+
+#### Header-only Libraries
+
+A **header-only library** is a library where the entire code, including both the declarations and the implementations, is written directly inside the header files (`.h` or `.hpp`). There are no separate `.cpp` files to compile for the library itself; you simply use the `#include` directive to integrate it, and the compiler treats the library's code as if it were part of your own source file.
+
+My understanding is that header-only libraries are the ultimate choice for convenience and ease of integration. They are perfect for distributing smaller utilities or libraries that are heavily based on C++ templates, as they completely eliminate the complexities of the linking process. However, this simplicity comes at a direct cost to compilation speed. Because the entire library is copied into every source file that includes it, the compiler has to do much more work, which can significantly slow down the build process for large projects.
+
+#### A Note on `#include`: Angle Brackets `<>` vs. Double Quotes `""`
+
+An important practical detail I learned is the difference in how files are included:
+
+-   **`#include <library.h>`:** The **angle brackets** are used for **standard system libraries** (e.g., `<iostream>`, `<vector>`). This tells the compiler to search only in the default system-wide include directories where standard libraries are installed.
+
+-   **`#include "library.h"`:** The **double quotes** are for **my own header files** or **third-party libraries** included within this project. This tells the compiler to search **first** in the current project directory, and only then to check the system directories if the file isn't found locally.
+
+The convention I will follow is to use `<>` for standard libraries and `""` for all files that are a local part of this project.
