@@ -2,7 +2,7 @@
 
 ### 10.4 Update
 A strong curiosity about Computational Fluid Dynamics (CFD) inspires me to start this journey. After self-studying C++ fundamentals for a while, I am undertaking this project to apply theoretical knowledge to a practical challenge, aiming to gain a deep understanding of the underlying data structures, numerical algorithms, and modern C++ software engineering practices involved in CFD solvers.
-This repository will serve as my learning log, systematically showcasing the whole discovery process.
+This repository will serve as my learning log, systematically showcasing the whole discovery process. I am following a tutorial called 'How to compile, write and use CFD libraries in C++' from cfd.university 
 
 ---
 
@@ -42,3 +42,28 @@ An important practical detail I learned is the difference in how files are inclu
 -   **`#include "library.h"`:** The **double quotes** are for **my own header files** or **third-party libraries** included within this project. This tells the compiler to search **first** in the current project directory, and only then to check the system directories if the file isn't found locally.
 
 The convention I will follow is to use `<>` for standard libraries and `""` for all files that are a local part of this project.
+
+---
+## Part 2 Discretising the Model Equation
+
+The next thing that would be essential for this project is understanding the numerical method behind this physical model. 
+
+### Part 2: Discretising the Model Equation - From Physics to a Solvable Problem
+
+This chapter forms the theoretical bedrock of the entire library, detailing the crucial process of translating a physical phenomenon into a format a computer can solve.
+
+-   **The Physical Problem & Governing Equation:** The steady-state heat equation is a good example to study when developing a linear algebra library to solve the discretised equation **$Ax = b$**. This is governed by a Partial Differential Equation (PDE), specifically the Laplace Equation, $\nabla^2 T = 0$. I understand this equation as a "rule of smoothness," stating that the temperature at any point is the average of its immediate surroundings.
+
+-   **The Computational Challenge:** A computer cannot operate on a continuous domain with infinite points. The core challenge is to translate this continuous PDE into a discrete system of algebraic equations. This translation process is known as **discretisation**.
+
+-   **The Chosen Method (Finite Volume Method - FVM):** My key takeaway is that FVM's strength lies in its enforcement of conservation laws. It works by:
+    1.  Dividing the continuous physical domain into a finite grid of small "control volumes" or "cells".
+    2.  Applying the physical law (heat in = heat out) to each individual cell, rather than at a single point.
+    3.  Approximating the heat "flux" between a cell and its neighbors based on their temperature differences.
+
+-   **The Final Outcome (A Solvable System):** By applying the FVM rules to every cell in the grid, the complex PDE is systematically transformed into a large system of coupled linear equations. This system is elegantly represented in the matrix form **$Ax = b$**, where:
+    -   `x` is the vector of unknown temperatures at the center of each cell—this is the solution we are seeking.
+    -   `A` is a large, sparse matrix of coefficients that defines the relationship between each cell and its direct neighbors.
+    -   `b` is a vector representing the knowns, such as heat sources or the fixed temperatures at the boundaries of the domain (**boundary conditions**).
+
+My understanding is now clear: the primary purpose of the C++ code to be written in the following chapters is to build the data structures (`Vector`, `SparseMatrix`) and algorithms (`Solver`) necessary to construct and solve this very `Ax=b` system.
