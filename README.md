@@ -14,7 +14,7 @@ A **library** is simply a collection of pre-written, reusable code (like functio
 
 Therefore, before attempting to build my own, it's essential to first understand the common types of C++ libraries.
 
-### 10.4 Update
+### 10.5 Update
 
 #### Static Libraries
 A **static library** is essentially an archive of code that is directly copied and linked into your application's final executable file during compilation.
