@@ -44,11 +44,9 @@ An important practical detail I learned is the difference in how files are inclu
 The convention I will follow is to use `<>` for standard libraries and `""` for all files that are a local part of this project.
 
 ---
-## Part 2 Discretising the Model Equation
+## Part 2 Discretising the Model Equation - From Physics to a Solvable Problem
 
 The next thing that would be essential for this project is understanding the numerical method behind this physical model. 
-
-### Part 2: Discretising the Model Equation - From Physics to a Solvable Problem
 
 This chapter forms the theoretical bedrock of the entire library, detailing the crucial process of translating a physical phenomenon into a format a computer can solve.
 
@@ -67,3 +65,8 @@ This chapter forms the theoretical bedrock of the entire library, detailing the 
     -   `b` is a vector representing the knowns, such as heat sources or the fixed temperatures at the boundaries of the domain (**boundary conditions**).
 
 My understanding is now clear: the primary purpose of the C++ code to be written in the following chapters is to build the data structures (`Vector`, `SparseMatrix`) and algorithms (`Solver`) necessary to construct and solve this very `Ax=b` system.
+
+---
+## Part 3: Basic Library Structure
+
+My understanding from this chapter is that a robust C++ library requires a well-defined directory structure to enforce a separation of concerns. By placing the public interface (declarations in header files) into an `include/` directory and the private implementation (definitions in source files) into a `src/` directory, the library becomes far more organised and easier for an external application to use without exposing its internal workings.
