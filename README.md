@@ -69,4 +69,5 @@ My understanding is now clear: the primary purpose of the C++ code to be written
 ---
 ## Part 3: Basic Library Structure
 
+### 10.7 Update
 My understanding from this chapter is that a robust C++ library requires a well-defined directory structure to enforce a separation of concerns. By placing the public interface (declarations in header files) into an `include/` directory and the private implementation (definitions in source files) into a `src/` directory, the library becomes far more organised and easier for an external application to use without exposing its internal workings.
