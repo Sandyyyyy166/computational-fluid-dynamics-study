@@ -8,7 +8,11 @@ This repository will serve as my learning log, systematically showcasing the who
 
 ## Part 1: C++ Compilation and the Role of Libraries
 
-C++ operates differently from an interpreted language like Python. C++ requires a compilation step because the human-readable source code must be translated by a compiler into low-level machine code instructions that the CPU can execute directly. While this adds a step to the development process, it is precisely this translation that gives C++ its immense performance advantage at runtime, which is critical for scientific computing.
+C++ operates differently from an interpreted language like Python. 
+
+**Compiler vs. Interpreter:** The core difference is WHEN the translation to machine code happens. A **Compiler** (like in C++) acts as a master translator, converting the entire source code into a fast, standalone executable file BEFORE you run it. In contrast, an **Interpreter** (like in Python) acts as a simultaneous translator, reading and executing the code line-by-line DURING runtime.
+
+C++ requires a compilation step because the human-readable source code must be translated by a compiler into low-level machine code instructions that the CPU can execute directly. While this adds a step to the development process, it is precisely this translation that gives C++ its immense performance advantage at runtime, which is critical for scientific computing.
 
 A **library** is simply a collection of pre-written, reusable code (like functions or classes) designed to be used by another program, it **cannot contain its own `main()` function**. This is because `main()` is the unique starting point for a program's execution, and having two would create a conflict.
 
@@ -71,3 +75,45 @@ My understanding is now clear: the primary purpose of the C++ code to be written
 
 ### 10.7 Update
 My understanding from this chapter is that a robust C++ library requires a well-defined directory structure to enforce a separation of concerns. By placing the public interface (declarations in header files) into an `include/` directory and the private implementation (definitions in source files) into a `src/` directory, the library becomes far more organised and easier for an external application to use without exposing its internal workings.
+
+### 10.9 Update
+My work in this part involved creating several key components that separate the different concerns of the project:
+
+1.  **The Library (Similar to The "Toolbox"):** This is the core of the project, containing the reusable code.
+    * **`include/` directory:** This holds the public "interface" or "header" files (`.hpp`). It declares WHAT the library can do, serving as the menu for the user.
+    * **`src/` directory:** This holds the private "implementation" files (`.cpp`). It defines HOW the library performs its functions, containing the actual logic.
+
+2.  **The Application (Similar to The "User"):**
+    * **`main.cpp`:** This is a standalone program that acts as a user or client of the library. Its purpose is to `#include` the library's public headers and CALL its functions to achieve a specific goal. It provides a clear example of HOW TO USE the library.
+
+3.  **The Build System (Similar to The "Instructions"):**
+    * **`Makefile`:** This is the instruction manual for the compiler. It defines all the necessary steps to compile the library's source files and the application's source files, and then **link** them together correctly to create a final, working executable program. It is the key to managing the relationship between all the different code files.
+
+The fundamental difference is between the **library** (the general-purpose tool) and the **`main.cpp` application** (a specific use-case of that tool). This separation is the foundation of modular and scalable software design.
+
+#### C++ Build and Execution Steps
+Then it is important to learn how the running process works
+
+**Step 1: Writing Code**
+This is the manual step where I write the logic, like designing the blueprint.
+-   **`include/cfd.hpp`:** The public blueprint, showing what the engine's connection points are.
+-   **`src/cfd.cpp`:** The detailed, secret blueprint for how the engine is built internally.
+-   **`main.cpp`:** The blueprint for the car's chassis and body, which shows where the engine needs to be installed.
+
+**Step 2: Preprocessing**
+* Before the main translation, a "preprocessor" runs. When it sees an `#include "cfd.hpp"` directive, it literally makes a copy of the contents of `cfd.hpp` and pastes it into the top of the `.cpp` file. This ensures each blueprint has all the information it needs.
+
+**Step 3: Compilation**
+* The compiler takes each `.cpp` file and translates it from C++ into the computer's native machine code. This step is like building the car parts in separate workshops.
+* The compiler reads `main.cpp` and produces **`main.o`** (the finished car chassis).
+* The compiler reads `src/cfd.cpp` and produces **`cfd.o`** (the finished engine).
+* These `.o` files are called **object files**. They are self-contained, compiled components, but they are not yet a complete program. The chassis (`main.o`) knows it *needs* an engine, but it doesn't know where the engine (`cfd.o`) is yet.
+
+**Step 4: Linking**
+* The **Linker** is the final stage. Its job is to take all the finished components and connect them.
+* It takes `main.o` (the chassis) and `cfd.o` (the engine).
+* It resolves all the connections. It sees that `main.o` wants to call the `helloWorld` function and connects it to the actual `helloWorld` code living inside `cfd.o`.
+* It bundles everything into a single, final file: the executable program named **`main`** (or `main.exe` on Windows). This is the finished, drivable car.
+
+**Step 5: Execution**
+* This is the final step where you, the user, run the program (`./main`). The operating system loads the executable file into memory and tells the processor to start carrying out the machine code instructions, starting from the `main` function.
