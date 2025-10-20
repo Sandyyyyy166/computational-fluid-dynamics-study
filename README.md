@@ -119,14 +119,10 @@ This is the manual step where I write the logic, like designing the blueprint.
 * This is the final step where you, the user, run the program (`./main`). The operating system loads the executable file into memory and tells the processor to start carrying out the machine code instructions, starting from the `main` function.
 
 ### 10.20 Update (stopped a few days due to coursework deadlines)
-This project was initialised from the command line on my local machine to establish a clean, professional, and scalable structure from stretch. The key steps I took were as follows:
+To translate the theory from Part 3 into a tangible result, I set up the complete project foundation from scratch. This entire process was managed through the Terminal on my local machine to simulate a professional development environment.
+The workflow involved several key steps:
 
-1.  Local Directory Creation: The process began by creating a root project folder on the local machine (`mkdir`) and navigating into it (`cd`).
-
-2.  Git Repository Initialisation: The folder was immediately turned into a local Git repository using `git init`. This enabled version tracking right from the start.
-
-3.  Project Scaffolding: The core directory structure was built using `mkdir src include`. All necessary empty files (`.hpp`, `.cpp`, `Makefile`, `readme.md`) were then created with the `touch` command to lay out the project's skeleton.
-
-4.  Remote Repository Setup: A new, empty repository was created on the GitHub website.
-
-5.  Linking and First Push: The local repository was linked to its remote counterpart on GitHub using `git remote add origin <URL>`. The initial file and folder structure was then committed and pushed for the first time using `git push -u origin main`, making the local project visible online.
+1.  Scaffolding: I created the core directory structure (`src/` and `include/`) and all necessary empty files using command-line tools (`mkdir`, `touch`).
+2.  Implementation: I wrote the initial "hello world" version of the library, with a simple `hello_cfd` function. This served as a proof of concept to validate the project's structure.
+3.  Building: The core task was writing a `Makefile` that could correctly compile the separate source files (`main.cpp`, `cfd.cpp`) into object files and then link them into a single, working executable.
+4.  Publishing: After verifying locally that the program ran as expected, I initialized a Git repository, linked it to a new remote on GitHub, resolved initial configuration issues, and performed the first successful `git push` to publish the foundational code.
