@@ -123,6 +123,6 @@ To translate the theory from Part 3 into a tangible result, I set up the complet
 The workflow involved several key steps:
 
 1.  Scaffolding: I created the core directory structure (`src/` and `include/`) and all necessary empty files using command-line tools (`mkdir`, `touch`).
-2.  Implementation: I wrote the initial "hello world" version of the library, with a simple `hello_cfd` function. This served as a proof of concept to validate the project's structure.
+2.  Implementation: I chose "hello world" as the initial version of the library. The `hello_cfd` function served as a proof of concept to validate the project's structure.
 3.  Building: The core task was writing a `Makefile` that could correctly compile the separate source files (`main.cpp`, `cfd.cpp`) into object files and then link them into a single, working executable.
 4.  Publishing: After verifying locally that the program ran as expected, I initialized a Git repository, linked it to a new remote on GitHub, resolved initial configuration issues, and performed the first successful `git push` to publish the foundational code.
