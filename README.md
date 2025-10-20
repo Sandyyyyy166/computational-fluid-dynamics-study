@@ -117,3 +117,16 @@ This is the manual step where I write the logic, like designing the blueprint.
 
 **Step 5: Execution**
 * This is the final step where you, the user, run the program (`./main`). The operating system loads the executable file into memory and tells the processor to start carrying out the machine code instructions, starting from the `main` function.
+
+### 10.20 Update (stopped a few days due to coursework deadlines)
+This project was initialised from the command line on my local machine to establish a clean, professional, and scalable structure from stretch. The key steps I took were as follows:
+
+1.  Local Directory Creation: The process began by creating a root project folder on the local machine (`mkdir`) and navigating into it (`cd`).
+
+2.  Git Repository Initialisation: The folder was immediately turned into a local Git repository using `git init`. This enabled version tracking right from the start.
+
+3.  Project Scaffolding: The core directory structure was built using `mkdir src include`. All necessary empty files (`.hpp`, `.cpp`, `Makefile`, `readme.md`) were then created with the `touch` command to lay out the project's skeleton.
+
+4.  Remote Repository Setup: A new, empty repository was created on the GitHub website.
+
+5.  Linking and First Push: The local repository was linked to its remote counterpart on GitHub using `git remote add origin <URL>`. The initial file and folder structure was then committed and pushed for the first time using `git push -u origin main`, making the local project visible online.
