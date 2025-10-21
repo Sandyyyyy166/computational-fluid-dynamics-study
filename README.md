@@ -127,10 +127,10 @@ The workflow involved several key steps:
 3.  Building: The core task was writing a `Makefile` that could correctly compile the separate source files (`main.cpp`, `cfd.cpp`) into object files and then link them into a single, working executable.
 4.  Publishing: After verifying locally that the program ran as expected, I initialized a Git repository, linked it to a new remote on GitHub, resolved initial configuration issues, and performed the first successful `git push` to publish the foundational code.
 
-### 10.21 Update
 ---
 ## Part 5: The Vector Class - Theoretical Deep Dive
 
+### 10.21 Update
 This chapter marks the beginning of building the core components for our solver. The first essential tool is a `Vector` class to handle the mathematical vectors in our `Ax=b` system. My study of this part focused on the key principles of C++ class design.
 
 1. Why Create a Custom `Vector` Class?
@@ -148,3 +148,8 @@ My understanding of building this class involves several key C++ concepts:
     * **Destructor `~Vector()`:** Cleans up when an object is destroyed. Since we are using `std::vector` internally, which handles its own memory, our destructor can be simple, but it's a required part of the rule.
     * **Copy Constructor `Vector(const Vector& other)`:** Defines what happens when we create a *new* vector by copying an existing one (e.g., `Vector v2 = v1;`). It must create a deep copy of the internal data.
     * **Copy Assignment Operator `operator=(const Vector& other)`:** Defines what happens when we assign an existing vector to another (e.g., `v2 = v1;`). The tutorial introduces the elegant copy-and-swap idiom here. This is a robust way to provide a strong exception safety guarantee and avoid code duplication. It works by creating a temporary copy and then swapping the internal data with the temporary object.
+ 
+* **Operator Overloading (Making the Class Intuitive):**
+    * This is the most powerful feature for our scientific computing class. It allows us to define how standard mathematical symbols (`+`, `-`, `*`) work with our `Vector` objects.
+    * For example, by overloading `operator+`, we can write `Vector v3 = v1 + v2;` just like in mathematics, which is much more readable than `Vector v3 = v1.add(v2);`.
+    * The plan is to overload operators for vector addition (`+`), subtraction (`-`), and scalar multiplication (`*`).
