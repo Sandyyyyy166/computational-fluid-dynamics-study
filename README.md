@@ -153,3 +153,9 @@ My understanding of building this class involves several key C++ concepts:
     * This is the most powerful feature for our scientific computing class. It allows us to define how standard mathematical symbols (`+`, `-`, `*`) work with our `Vector` objects.
     * For example, by overloading `operator+`, we can write `Vector v3 = v1 + v2;` just like in mathematics, which is much more readable than `Vector v3 = v1.add(v2);`.
     * The plan is to overload operators for vector addition (`+`), subtraction (`-`), and scalar multiplication (`*`).
+
+* **Essential Public Methods (The "API"):**
+    * **`operator[](size_t index)`:** Allows accessing vector elements using familiar square bracket notation, like `v[i]`.
+    * **`size()`:** A method to get the number of elements in the vector.
+
+This theoretical groundwork provides a clear blueprint for the implementation. The focus is on creating a class that is not only functional but also robust, safe, and intuitive to use for mathematical programming.
