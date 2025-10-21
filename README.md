@@ -118,7 +118,7 @@ This is the manual step where I write the logic, like designing the blueprint.
 **Step 5: Execution**
 * This is the final step where you, the user, run the program (`./main`). The operating system loads the executable file into memory and tells the processor to start carrying out the machine code instructions, starting from the `main` function.
 
-### 10.20 Update (stopped a few days due to coursework deadlines)
+### 10.20 Update (stopped a few days due to multiple courseworks deadlines)
 To translate the theory from Part 3 into a tangible result, I set up the complete project foundation from scratch. This entire process was managed through the Terminal on my local machine to simulate a professional development environment.
 The workflow involved several key steps:
 
@@ -126,3 +126,11 @@ The workflow involved several key steps:
 2.  Implementation: I chose "hello world" as the initial version of the library. The `hello_cfd` function served as a proof of concept to validate the project's structure.
 3.  Building: The core task was writing a `Makefile` that could correctly compile the separate source files (`main.cpp`, `cfd.cpp`) into object files and then link them into a single, working executable.
 4.  Publishing: After verifying locally that the program ran as expected, I initialized a Git repository, linked it to a new remote on GitHub, resolved initial configuration issues, and performed the first successful `git push` to publish the foundational code.
+
+### 10.21 Update
+## Part 5: The Vector Class - Theoretical Deep Dive
+
+This chapter marks the beginning of building the core components for our solver. The first essential tool is a `Vector` class to handle the mathematical vectors in our `Ax=b` system. My study of this part focused on the key principles of C++ class design.
+
+1. Why Create a Custom `Vector` Class?
+While C++ has a powerful built-in `std::vector`, the goal here is to create a class specifically for **mathematical vector operations**. This means our class will have a fixed size upon creation and will support linear algebra operations like vector addition, subtraction, and dot products, which `std::vector` does not provide out of the box. For simplicity and robust memory management, our custom `Vector` class will use an `std::vector<double>` internally to store its data.
