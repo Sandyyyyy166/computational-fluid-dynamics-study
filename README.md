@@ -128,9 +128,23 @@ The workflow involved several key steps:
 4.  Publishing: After verifying locally that the program ran as expected, I initialized a Git repository, linked it to a new remote on GitHub, resolved initial configuration issues, and performed the first successful `git push` to publish the foundational code.
 
 ### 10.21 Update
+---
 ## Part 5: The Vector Class - Theoretical Deep Dive
 
 This chapter marks the beginning of building the core components for our solver. The first essential tool is a `Vector` class to handle the mathematical vectors in our `Ax=b` system. My study of this part focused on the key principles of C++ class design.
 
 1. Why Create a Custom `Vector` Class?
-While C++ has a powerful built-in `std::vector`, the goal here is to create a class specifically for **mathematical vector operations**. This means our class will have a fixed size upon creation and will support linear algebra operations like vector addition, subtraction, and dot products, which `std::vector` does not provide out of the box. For simplicity and robust memory management, our custom `Vector` class will use an `std::vector<double>` internally to store its data.
+While C++ has a powerful built-in `std::vector`, the goal here is to create a class specifically for mathematical vector operations. This means our class will have a fixed size upon creation and will support linear algebra operations like vector addition, subtraction, and dot products, which `std::vector` does not provide out of the box. For simplicity and robust memory management, our custom `Vector` class will use an `std::vector<double>` internally to store its data.
+
+2. Core Components of a Well-Designed Class
+
+My understanding of building this class involves several key C++ concepts:
+
+* **Constructors** (The "Birth" of an object):
+    * **`Vector(size_t size)`:** The primary constructor. It creates a vector of a specific `size`, initializing all its elements to zero. This is crucial for creating the `x` and `b` vectors in our `Ax=b` equation.
+    * **`Vector(const std::vector<double>& data)`:** A convenience constructor to create our `Vector` from an existing list of numbers, which is useful for testing.
+
+* **The Rule of Three/Five (Managing Copies):** This is a critical concept in C++ for managing memory correctly when objects are copied.
+    * **Destructor `~Vector()`:** Cleans up when an object is destroyed. Since we are using `std::vector` internally, which handles its own memory, our destructor can be simple, but it's a required part of the rule.
+    * **Copy Constructor `Vector(const Vector& other)`:** Defines what happens when we create a *new* vector by copying an existing one (e.g., `Vector v2 = v1;`). It must create a deep copy of the internal data.
+    * **Copy Assignment Operator `operator=(const Vector& other)`:** Defines what happens when we assign an existing vector to another (e.g., `v2 = v1;`). The tutorial introduces the elegant copy-and-swap idiom here. This is a robust way to provide a strong exception safety guarantee and avoid code duplication. It works by creating a temporary copy and then swapping the internal data with the temporary object.
