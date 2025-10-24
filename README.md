@@ -169,6 +169,12 @@ Here is a summary of the problems I faced and how I solved them:
 
 1.  **The Initial Problem:** My `git push` was `[rejected]`. The error `(fetch first)` indicated that the remote GitHub repository had commits that my local machine did not have. This was likely due to the automatic creation of a file (like `.gitignore`) when I first set up the repository on the GitHub website.
 2.  **The Complication:** The standard solution, `git pull`, repeatedly failed. The error `You have unstaged changes` blocked any attempt to pull or rebase.
-
 3.  **The Root Cause (A Deeper Issue):** The "unstaged changes" were not simple; they were caused by a **filename case-sensitivity conflict**. My local macOS file system is **case-insensitive** (treating `README.md` and `readme.md` as the same file), while GitHub and Git are **case-sensitive** (treating them as two different files). This created a confusing state where Git couldn't tell what was staged, unstaged, or committed, leading to a loop where `git commit` and `git pull` would both fail.
+4.  **The Solution (A Step-by-Step Fix):**
+    * First, I had to **safely undo** an incorrect commit that Git had created, which had marked my main `README.md` for deletion. I used `git reset` to do this, rolling back the commit without losing my work.
+    * Second, I had to **manually fix Git's tracking index**. I used `git mv` (to force Git to recognize the correct case) and `git rm --cached` to explicitly tell Git to stop tracking the duplicate lowercase `readme.md`.
+    * Third, once the file conflict was resolved, I could safely **commit** all my local changes (my new `Vector.hpp` and the `README.md` fix).
+    * Fourth, with a clean working directory, I was finally able to run `git pull origin main --rebase`. This successfully downloaded the remote history and neatly "re-stacked" my local commits on top.
+    * Finally, with a unified history, `git push` succeeded.
 
+This was a challenging but practical lesson in how Git manages state, how file systems can cause cross-platform conflicts, and how to use lower-level commands like `git reset` and `git rm --cached` to fix a broken repository state.
