@@ -159,3 +159,12 @@ My understanding of building this class involves several key C++ concepts:
     * **`size()`:** A method to get the number of elements in the vector.
 
 This theoretical groundwork provides a clear blueprint for the implementation. The focus is on creating a class that is not only functional but also robust, safe, and intuitive to use for mathematical programming.
+
+### 10.24 Update
+A Reflection on the First Major Push: Debugging the Git Workflow
+
+When processing the initial implementation of the project's structure (Part 3) and the `Vector` class interface (Part 5), I encountered a significant series of challenges during the push to GitHub. This was a valuable, real-world lesson in debugging the development *process* itself, not just the code.
+
+Here is a summary of the problems I faced and how I solved them:
+
+1.  **The Initial Problem:** My `git push` was `[rejected]`. The error `(fetch first)` indicated that the remote GitHub repository had commits that my local machine did not have. This was likely due to the automatic creation of a file (like `.gitignore`) when I first set up the repository on the GitHub website.
