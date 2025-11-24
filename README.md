@@ -178,3 +178,18 @@ Here is a summary of the problems I faced and how I solved them:
     * Finally, with a unified history, `git push` succeeded.
 
 This was a challenging but practical lesson in how Git manages state, how file systems can cause cross-platform conflicts, and how to use lower-level commands like `git reset` and `git rm --cached` to fix a broken repository state.
+
+### 11.23 Update
+I came back with starting Core Vector Implementation. I have successfully initialised the `src` and `include` directory structure. The `Vector` class interface has been defined in `include/vector.hpp`, and I have implemented the fundamental constructors and destructor in `src/vector.cpp`. This establishes the memory management foundation for the linear algebra library.
+
+### 11.24 Update
+With the basic constructors complete, this critical milestone focused on implementing the **Rule of Five** to ensure the `Vector` class handles memory safely and efficiently during copying and assignment.
+
+In C++, if memory is not managed correctly, a simple assignment (`v2 = v1;`) can lead to a shallow copy (both vectors pointing to the same data), which causes program crashes when one object is destroyed.
+We explicitly solve by implementing the **Copy Constructor** and **Copy Assignment Operator** to ensure a deep copy (duplicating the data) is performed every time.
+
+The assignment operator (`operator=`) uses the **Copy-and-Swap Idiom**. This robust pattern is implemented to automatically provide a strong exception safety guarantee while simplifying the code.
+
+We also implemented the **Move Constructor** and **Move Assignment Operator**. These functions allow the program to "steal" data resources from temporary objects instead of performing unnecessary and costly deep copies, significantly boosting performance in modern C++.
+
+The `Vector` class is now robustly protected against memory errors and is optimized for efficient data transfer, laying a solid foundation for the numerical solver.
