@@ -193,3 +193,10 @@ The assignment operator (`operator=`) uses the **Copy-and-Swap Idiom**. This rob
 We also implemented the **Move Constructor** and **Move Assignment Operator**. These functions allow the program to "steal" data resources from temporary objects instead of performing unnecessary and costly deep copies, significantly boosting performance in modern C++.
 
 The `Vector` class is now robustly protected against memory errors and is optimized for efficient data transfer, laying a solid foundation for the numerical solver.
+
+### 11.27 Update
+Today I completed the foundational code for the `Vector` class in `src/vector.cpp`.
+**Functions Implemented:** All necessary **Constructors** (`Vector()`, `Vector(size_t size)`, `Vector(const std::vector<double>&)`) and the **Destructor** (`~Vector()`).
+**Concept:** This establishes the essential **lifecycle** and **initialisation safety** for the class, ensuring all vectors are properly created and their internal memory is managed correctly upon destruction.
+**Next Focus:** The immediate next step is to implement the vital **"Rule of Five"** logic to enable safe copying and assignment between Vector objects.
+
