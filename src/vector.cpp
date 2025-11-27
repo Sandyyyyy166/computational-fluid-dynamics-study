@@ -73,3 +73,74 @@ Vector& Vector::operator=(Vector&& other) noexcept {
     }
     return *this;
 }
+
+// --- Section 4: Public Methods and Operators ---
+
+// 1. Get the size of the vector
+// Tell users how many elements are included in the vector
+size_t Vector::size() const {
+    return m_data.size();
+}
+
+// 2. Element Access (Read/Write)
+// Allow us to read or modify elements within the vector eg. v[0] = 5.0;
+double& Vector::operator[](size_t index) {
+    // m_data[index] calls the operation symbol of std::vector
+    // add boundary examination for better security (out_of_range check)
+    if (index >= m_data.size()) {
+        throw std::out_of_range("Index out of bounds");
+    }
+    return m_data[index];
+}
+
+// 3. Element Access (Read-only)
+// When vector is const (read only) call the version below
+const double& Vector::operator[](size_t index) const {
+    if (index >= m_data.size()) {
+        throw std::out_of_range("Index out of bounds");
+    }
+    return m_data[index];
+}
+
+// 4. Vector Addition (v1 + v2)
+// Achieve addtion of vectors
+Vector Vector::operator+(const Vector& rhs) const {
+    // Check if size matches to achieve addition
+    if (size() != rhs.size()) {
+        throw std::length_error("Vectors must be of the same size to add.");
+    }
+
+    // Create a new result vector
+    Vector result(size());
+
+    // Add elements one by one
+    for (size_t i = 0; i < size(); ++i) {
+        result[i] = m_data[i] + rhs[i];
+    }
+
+    return result;
+}
+
+// 5. Vector Subtraction (v1 - v2)
+// Achieve vector subtraction
+Vector Vector::operator-(const Vector& rhs) const {
+    if (size() != rhs.size()) {
+        throw std::length_error("Vectors must be of the same size to subtract.");
+    }
+
+    Vector result(size());
+    for (size_t i = 0; i < size(); ++i) {
+        result[i] = m_data[i] - rhs[i];
+    }
+    return result;
+}
+
+// 6. Scalar Multiplication (v1 * scalar)
+// Achieve multiplication of vector and scalar
+Vector Vector::operator*(double scalar) const {
+    Vector result(size());
+    for (size_t i = 0; i < size(); ++i) {
+        result[i] = m_data[i] * scalar;
+    }
+    return result;
+}
