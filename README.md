@@ -200,3 +200,27 @@ Today I completed the foundational code for the `Vector` class in `src/vector.cp
 **Concept:** This establishes the essential **lifecycle** and **initialisation safety** for the class, ensuring all vectors are properly created and their internal memory is managed correctly upon destruction.
 **Next Focus:** The immediate next step is to implement the vital **"Rule of Five"** logic to enable safe copying and assignment between Vector objects.
 
+---
+
+## Part 6: C++ Sparse Matrix Implementation (CSR Format)
+
+### 12.2 Update
+Today I focused on building the highly efficient `SparseMatrix` class, which is essential for solving large-scale linear systems ($Ax=b$) in CFD.
+
+**1. Theoretical Foundation (Why Sparse?)**
+A Sparse Matrix is defined as a matrix where the vast majority of its elements are zero. In Finite Volume Methods (FVM), this pattern is pervasive because any cell only interacts with its immediate neighbors, resulting in a matrix with non-zero entries only near the main diagonal. Storing only the non-zero elements provides massive savings in both **memory** and **computational time**.
+
+**2. Implementation: The CSR Format**
+I implemented the `SparseMatrix` class using the **Compressed Sparse Row (CSR)** format. This format is crucial for fast matrix-vector multiplication and minimizes memory footprint.
+
+-   **Data Structure:** The matrix is stored using three core internal `std::vector`s:
+    1.  **`m_values`:** Stores the non-zero numerical entries.
+    2.  **`m_col_indices`:** Stores the column index of each value in `m_values`.
+    3.  **`m_row_offsets`:** Acts as a 'bookmark,' storing the starting index of each new row within the `m_values` array.
+-   **Core Logic:** The most complex part was implementing the `operator*` (Matrix-Vector Multiplication). The logic relies on using the `m_row_offsets` to quickly loop over only the non-zero elements of each row, which is dramatically faster than looping over the entire dense matrix.
+
+**3. Verification (Testing the Core Logic)**
+Verification was performed by integrating the `SparseMatrix` and `Vector` classes within `main.cpp`.
+
+-   **Test Case:** A small, known $3 \times 3$ matrix (with non-zero entries at specific indices) was defined, along with a simple input vector $x$.
+-   **Result:** The calculated output vector $y = A \cdot x$ was compared against the expected analytical result. The test successfully confirmed that the complex CSR indexing and multiplication logic are functionally correct, thereby validating the core of the Part 6 implementation.
