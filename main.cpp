@@ -10,10 +10,12 @@
 
 #include <iostream>
 #include <stdexcept>
-#include "vector.hpp"          // We use the Vector class
-#include "SparseMatrix.hpp"    // We use the SparseMatrix class
+#include <cmath>
+#include "Vector.hpp"          // We use the SparseMatrix class
+#include "SparseMatrix.hpp"    // We use the Vector class
+#include "cfd.hpp"             // Now we use the solver function
 
-int main() {
+/*//int main() {
     std::cout << "--- Starting Part 6 Matrix-Vector Test ---" << std::endl;
     
     try {
@@ -62,5 +64,66 @@ int main() {
         return 1;
     }
 
+    return 0; 
+}*/
+
+int main() {
+    std::cout << "--- Starting Part 4 Conjugate Gradient Solver Test ---" << std::endl;
+    
+    try {
+        // 1. Define the System A x = b
+        
+        // Simple 3x3 SPD Matrix A (Non-zero capacity = 7)
+        // A = | 2 -1 0 |
+        //     |-1  2 -1|
+        //     | 0 -1  2|
+        SparseMatrix A(3, 3, 7); 
+        A.setValue(0, 0, 2.0); A.setValue(0, 1, -1.0); 
+        A.setValue(1, 0, -1.0); A.setValue(1, 1, 2.0); A.setValue(1, 2, -1.0);
+        A.setValue(2, 1, -1.0); A.setValue(2, 2, 2.0); 
+
+        // Right-hand side vector b
+        // b = | 1.0 |
+        //     | 0.0 |
+        //     | 1.0 |
+        Vector b({1.0, 0.0, 1.0});
+
+        // Initial guess x0 (The exact solution is x = | 1, 1, 1 |)
+        Vector x0({0.0, 0.0, 0.0}); 
+        
+        // Solver parameters
+        size_t max_iterations = 100; 
+        double tolerance = 1e-6; 
+
+        // 2. Solve the system
+        Vector x_solution = solve_cg(A, b, x0, max_iterations, tolerance);
+
+        // 3. Print Final Result
+        std::cout << "\nCG SOLVER TEST RESULT:" << std::endl;
+        std::cout << "Expected Solution: [1.0, 1.0, 1.0]" << std::endl;
+        std::cout << "Calculated Solution: ";
+        for (size_t i = 0; i < x_solution.size(); ++i) {
+            std::cout << x_solution[i] << (i < x_solution.size() - 1 ? ", " : "");
+        }
+        std::cout << "]" << std::endl;
+
+        // Check the error
+        Vector error = x_solution - Vector({1.0, 1.0, 1.0});
+        double final_error = norm(error);
+        
+        if (final_error < 1e-5) {
+             std::cout << "\nTEST RESULT: SUCCESS! CG Solver found the solution." << std::endl;
+        } else {
+             std::cout << "\nTEST RESULT: FAILURE. Final error too large." << std::endl;
+        }
+
+    } catch (const std::exception& e) {
+        std::cerr << "An error occurred: " << e.what() << std::endl;
+        return 1;
+    }
+
     return 0;
 }
+
+
+
