@@ -224,3 +224,36 @@ Verification was performed by integrating the `SparseMatrix` and `Vector` classe
 
 -   **Test Case:** A small, known $3 \times 3$ matrix (with non-zero entries at specific indices) was defined, along with a simple input vector $x$.
 -   **Result:** The calculated output vector $y = A \cdot x$ was compared against the expected analytical result. The test successfully confirmed that the complex CSR indexing and multiplication logic are functionally correct, thereby validating the core of the Part 6 implementation.
+
+---
+### 12.14 Update
+## Part 4: Conjugate Gradient (CG) Solver Deep Dive
+
+This part implements the core iterative solver necessary for finding the solution $x$ to the linear system $Ax=b$. This method is studied in my MATH0033 course. 
+
+1. Why Conjugate Gradient?
+The CG method is chosen because it is one of the most efficient iterative algorithms for solving systems where the matrix $A$ is **Symmetric Positive Definite (SPD)**. It minimizes the solution error by searching along a sequence of A-orthogonal (conjugate) directions, ensuring rapid convergence.
+
+2. Solver Implementation (`src/cfd.cpp`)
+The `solve_cg` function orchestrates the algorithm using the high-performance data structures from Parts 5 and 6.
+
+-   **Dependencies:** The implementation requires correct declaration of types in `include/cfd.hpp` by including `SparseMatrix.hpp` and `vector.hpp`.
+-   **Helper Functions:** Two essential functions, `dot_product` and `norm` (which requires `<cmath>` for `std::sqrt`), were defined to calculate vector inner products and measure the residual error ($L_2$ Norm).
+
+3. Core CG Iteration Logic
+
+The algorithm follows a strict sequence of steps in each iteration ($k$) to find the optimal descent direction ($p$) and step size ($\alpha$).
+
+| Step | CG Principle | Corresponding Code Line |
+| :--- | :--- | :--- |
+| **Initialization** | Set initial guess $x_0$ and calculate the initial residual $r_0 = b - Ax_0$. | `Vector r = b - (A * x);` |
+| **Step (b)** | **Calculate Optimal Step Size ($\alpha$):** Determines how far to move along the current search direction $p$. | `double alpha = r_old_dot_r_old / dot_product(p, Ap);` |
+| **Step (c)** | **Update Solution ($x$):** Move the current solution in the optimal direction by $\alpha$. | `x = x + (p * alpha);` |
+| **Step (d)** | **Update Residual ($r$):** Calculate the new residual, which must be orthogonal to the search direction $p$. | `Vector r_new = r - (Ap * alpha);` |
+| **Step (f)** | **Calculate Conjugate Factor ($\beta$):** Ensures the next search direction is A-orthogonal to the previous ones. | `double beta = r_new_dot_r_new / r_old_dot_r_old;` |
+| **Step (g)** | **Update Search Direction ($p$):** Define the new search direction based on the new residual and the factor $\beta$. | `p = r_new + (p * beta);` |
+| **Convergence** | Check the $L_2$ norm of the residual. If it is below the defined tolerance, the iteration stops. | `if (r_norm < tolerance * b_norm) { ... }` |
+
+4. Verification
+The solver was tested on a known $3 \times 3$ SPD system with an analytically known solution $x = [1, 1, 1]$. The successful convergence of the solver demonstrates that the CG algorithm logic, along with all underlying `Vector` and `SparseMatrix` arithmetic, is correctly implemented and verified.
+
