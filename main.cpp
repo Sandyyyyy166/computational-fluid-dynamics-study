@@ -1,5 +1,3 @@
-#include "cfd.hpp" // We include the library's public menu
-
 //int main() {
     // We call the function from the library
     //hello_cfd();
@@ -9,11 +7,12 @@
 // in file: main.cpp
 
 #include <iostream>
-#include <stdexcept>
-#include <cmath>
-#include "Vector.hpp"          // We use the SparseMatrix class
-#include "SparseMatrix.hpp"    // We use the Vector class
-#include "cfd.hpp"             // Now we use the solver function
+// #include <stdexcept>
+// #include <cmath>
+// #include "vector.hpp"          // We use the SparseMatrix class
+// #include "SparseMatrix.hpp"    // We use the Vector class
+// #include "cfd.hpp"             // Now we use the solver function
+#include "linearAlgebraLib.hpp" // Part 7: Replace all include by the static lib
 
 /*//int main() {
     std::cout << "--- Starting Part 6 Matrix-Vector Test ---" << std::endl;
