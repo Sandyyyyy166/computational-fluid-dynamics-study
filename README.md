@@ -257,3 +257,24 @@ The algorithm follows a strict sequence of steps in each iteration ($k$) to find
 4. Verification
 The solver was tested on a known $3 \times 3$ SPD system with an analytically known solution $x = [1, 1, 1]$. The successful convergence of the solver demonstrates that the CG algorithm logic, along with all underlying `Vector` and `SparseMatrix` arithmetic, is correctly implemented and verified.
 
+---
+### 12.22 Update
+## Part 7: Library Compilation and Automation
+
+This milestone transitions the project into a structured C++ library, enabling modularity and easier integration into future CFD applications.
+
+1. Library Architecture
+- **Static Library (`libLinearAlgebra.a`)**: All core functionalities (Vector, SparseMatrix, and Solver) are now bundled into a single static library file.
+- **Unified Entry Point (`linearAlgebraLib.hpp`)**: A single header file was created in the `include/` directory. Users only need to include this one file to access the entire library, hiding internal complexities.
+
+2. Automated Build System
+To ensure a clean and reproducible environment, the build process has been automated:
+- **Enhanced Makefile**: Updated to include rules for creating the archive file (`.a`) using the `ar` tool.
+- **Shell Script (`compile.sh`)**: A bash script that orchestrates the full lifecycle:
+    1. Cleans previous builds.
+    2. Compiles source files into object files.
+    3. Archives object files into a static library.
+    4. Compiles the test suite and links it against the library.
+
+3. Verification
+By running the automated script, the system confirms that the static library is correctly linked by executing the Conjugate Gradient test suite. A successful output proves the library is ready for production use in CFD simulations.
