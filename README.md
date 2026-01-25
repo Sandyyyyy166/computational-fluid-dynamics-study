@@ -278,3 +278,23 @@ To ensure a clean and reproducible environment, the build process has been autom
 
 3. Verification
 By running the automated script, the system confirms that the static library is correctly linked by executing the Conjugate Gradient test suite. A successful output proves the library is ready for production use in CFD simulations.
+
+---
+### 1.25 Update
+## Part 8: Small Application - 1D Heat Equation
+
+In this final chapter, I demonstrated the practical power of the library by trying to solve a real physical problem: **Steady-state heat conduction in a 1D metal rod**
+
+1. The Physical Problem
+- **Scenario**: A metal rod with a heat source at the left end ($100^\circ C$) and a heat sink at the right end ($0^\circ C$).
+- **Goal**: Calculate the temperature distribution along the rod.
+
+2. Discretisation (FVM)
+Using the Finite Volume Method (recall Part 2), I discretised the continuous domain into grid cells. For each internal cell, the physical law implies that the temperature is the average of its neighbours:
+$$-T_{i-1} + 2T_{i} - T_{i+1} = 0$$
+This creates a tridiagonal system of linear equations.
+
+3. Implementation & Results
+- **Code**: I used the `SparseMatrix` class to construct the system matrix $A$ and the `Vector` class for the boundary conditions $b$.
+- **Solver**: The system $Ax=b$ was solved using my Conjugate Gradient solver.
+- **Outcome**: The simulation successfully outputted a linear temperature gradient from $100^\circ C$ to $0^\circ C$, validating both the physics model and the underlying linear algebra library. 
