@@ -13,6 +13,80 @@
 // #include "SparseMatrix.hpp"    // We use the Vector class
 // #include "cfd.hpp"             // Now we use the solver function
 #include "linearAlgebraLib.hpp" // Part 7: Replace all include by the static lib
+#include <vector>               // Use standard library
+#include <fstream>              // Save result as txt
+
+int main() {
+    std::cout << "--- Part 8: Starting 1D Heat Equation Simulation ---" << std::endl;
+
+    try {
+        // --- 1. Problem Setup (Physical Reality) ---
+        // Imagine a metal rod.
+        int nx = 20;              // It has 20 points (grid cells).
+        double T_left = 100.0;    // Left end is boiling (100°C).
+        double T_right = 0.0;     // Right end is freezing (0°C).
+
+        // --- 2. Build the Linear System (Discretization) ---
+        // We need to solve A * T = b
+        // A is the relationship between neighbors.
+        // b contains the boundary conditions (100 and 0).
+        
+        SparseMatrix A(nx, nx, 3 * nx); // Each row has at most 3 non-zeros (-1, 2, -1)
+        Vector b(nx);
+        Vector T_initial(nx); // Initial guess (all zeros)
+
+        std::cout << "Constructing the matrix for " << nx << " grid points..." << std::endl;
+
+        for (int i = 0; i < nx; ++i) {
+            // Case 1: Left Boundary (Point 0)
+            if (i == 0) {
+                A.setValue(i, i, 1.0); // 1 * T[0] = T_left
+                b[i] = T_left;
+            } 
+            // Case 2: Right Boundary (Last Point)
+            else if (i == nx - 1) {
+                A.setValue(i, i, 1.0); // 1 * T[last] = T_right
+                b[i] = T_right;
+            } 
+            // Case 3: Interior Points (The Physics)
+            else {
+                // The formula is: -T_left + 2*T_center - T_right = 0
+                // This means the center temperature is the average of its neighbors.
+                A.setValue(i, i - 1, -1.0); 
+                A.setValue(i, i,      2.0); 
+                A.setValue(i, i + 1, -1.0); 
+                b[i] = 0.0; 
+            }
+        }
+
+        // --- 3. Solve the System ---
+        std::cout << "Solving..." << std::endl;
+        // Use your Conjugate Gradient solver
+        Vector T_solution = solve_cg(A, b, T_initial, 1000, 1e-6);
+
+        // --- 4. Output Results ---
+        // Print to screen and save to file
+        std::cout << "\nResult Temperature Distribution:" << std::endl;
+        std::ofstream outFile("solution.txt");
+        
+        for (int i = 0; i < nx; ++i) {
+            // Print to terminal
+            std::cout << "Point " << i << ": " << T_solution[i] << " C" << std::endl;
+            // Write to file for potential plotting
+            if (outFile.is_open()) {
+                outFile << i << " " << T_solution[i] << "\n";
+            }
+        }
+        outFile.close();
+        std::cout << "\nSimulation finished! Data saved to 'solution.txt'." << std::endl;
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return 1;
+    }
+
+    return 0;
+}
 
 /*//int main() {
     std::cout << "--- Starting Part 6 Matrix-Vector Test ---" << std::endl;
@@ -66,7 +140,7 @@
     return 0; 
 }*/
 
-int main() {
+/*int main() {
     std::cout << "--- Starting Part 4 Conjugate Gradient Solver Test ---" << std::endl;
     
     try {
@@ -122,7 +196,7 @@ int main() {
     }
 
     return 0;
-}
+}*/
 
 
 
